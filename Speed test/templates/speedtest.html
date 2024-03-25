@@ -1,0 +1,36 @@
+<!-- templates/speedtest.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Speed Test Results</title>
+</head>
+<body>
+    <h1>Speed Test Results</h1>
+    <p>Testing your internet speed...</p>
+    <div class="progress-container">
+        <div class="progress"></div>
+    </div>
+    <p id="speedText"></p>
+    <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+
+    <script>
+        // Simulate progress
+        let progress = 0;
+        let interval = setInterval(() => {
+            progress += 1;
+            document.querySelector('.progress').style.width = `${progress}%`;
+            document.getElementById('speedText').innerText = `Testing... ${progress}%`;
+            if (progress >= 100) {
+                clearInterval(interval);
+                document.querySelector('.progress-container').style.display = 'none';
+                document.getElementById('speedText').innerText = `Download Speed: {{ download_speed }} Mbps\nUpload Speed: {{ upload_speed }} Mbps`;
+            }
+        }, 50);
+    </script>
+</body>
+</html>
